@@ -1,0 +1,8 @@
+Checks:              '-*,performance-*,readability-*,modernize-*,cppcoreguidelines-*'
+WarningsAsErrors:    ''
+HeaderFileExtensions:         ['', 'h','hh','hpp','hxx']
+ImplementationFileExtensions: ['c','cc','cpp','cxx']
+HeaderFilterRegex:   ''
+FormatStyle:         file
+CheckOptions:
+#  some-check.SomeOption: 'some value'

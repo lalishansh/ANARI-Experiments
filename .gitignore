@@ -1,0 +1,34 @@
+# Ignore everything
+**/*.*
+/!build/*
+/!install/*
+/!installers/*
+
+# MAIN TARGET SOURCE FILES
+!/src/**/*[.c, .h, .cc, .hh, .inl, .cpp, .hpp, .cxx, .hxx, .cppm, ixx]
+!/tests/**/*[.c, .h, .cc, .hh, .inl, .cpp, .hpp, .cxx, .hxx, .cppm, ixx]
+
+# ANARI-Viewer SOURCE FILES
+!/ANARI-Viewer/src/**/*[.c, .h, .cc, .hh, .inl, .cpp, .hpp, .cxx, .hxx, .cppm, ixx]
+!/ANARI-Viewer/tests/**/*[.c, .h, .cc, .hh, .inl, .cpp, .hpp, .cxx, .hxx, .cppm, ixx]
+!/ANARI-Viewer/CMakeLists.txt
+
+# Include common project files
+!/~vendor/include/**/*[.h, .hh, .hpp, hxx, .inl, .ixx]
+
+!/~vendor/include/suppress-warnings/[README|Readme|readme]*
+!/~vendor/include/suppress-warnings/warning-db-rebuild.ps1
+
+!/.clang-*
+!/CMakeLists.txt
+!/CMakePresets.json
+!/vcpkg.json
+
+# Include common files
+!/~scripts/*[.ps1, .cmake]
+
+!/[Readme|README|readme]*
+!/License*
+!/.git*
+
+!/.github/workflows/*.yml

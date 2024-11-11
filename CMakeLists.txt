@@ -6,7 +6,6 @@ FIND_VCPKG()
 # Enable testing for the project
 enable_testing()
 
-
 # Project information
 PROJECT(ANARIViewerProject VERSION ${VCPKG_MANIFEST_VERSION_STRING} LANGUAGES CXX)
 
@@ -26,8 +25,9 @@ FILE(WRITE "${GENERATED_SOURCE_FILES_DIR}/version.h"
 SET(CMAKE_CXX_STANDARD 20)
 SET(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-# Projects    
-ADD_SUBDIRECTORY(ANARI-Viewer)
+# Projects
+ADD_SUBDIRECTORY(ANARI-SDK-Viewer)
+ADD_SUBDIRECTORY(ANARI-Minimal-Viewer)
 
 # Packaging information
 SET(CPACK_PACKAGE_VENDOR "Ishansh Lal")

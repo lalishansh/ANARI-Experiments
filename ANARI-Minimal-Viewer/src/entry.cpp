@@ -116,6 +116,7 @@ static void initialize_ALL() {
 		// Scene
 		auto scene = anari::newObject<anari::World>(d);
 		std::vector<anari::Surface> renderableObjects;
+		std::vector<anari::Light> lights;
 		// 1. triangle
 		{
 			fvec3 vertex[] = {{-1.0f, -1.0f, 3.0f},
@@ -146,9 +147,21 @@ static void initialize_ALL() {
 
 			renderableObjects.push_back(surface);
 		}
+		// 2. directional light (not needed for "helide" anari backend)
+		{
+			auto light = anari::newObject<anari::Light>(d, "directional");
+			anari::setParameter(d, light, "intensity", 1.f);
+			anari::setParameter(d, light, "irradiance", 1.f);
+			anari::setParameter(d, light, "color", fvec3{1.f, 1.f, 1.f});
+			anari::setParameter(d, light, "direction", fvec3{cam_view[0] + 0.f, cam_view[1] - 1.f, cam_view[2] + 0.f});
+
+			anari::commitParameters(d, light);
+			lights.push_back(light);
+		}
 
 		// END, add all instances to the scene
 		anari::setParameterArray1D(d, scene, "surface", renderableObjects.data(), renderableObjects.size());
+		anari::setParameterArray1D(d, scene, "light", lights.data(), lights.size());
 		anari::setParameter(d, scene, "id", 3u);
 
 		for (auto& obj: renderableObjects)
@@ -158,7 +171,7 @@ static void initialize_ALL() {
 		anari::commitParameters(d, scene);
 
 		// Rendering setup
-		auto renderer = g_ANARIState.renderer = anari::newObject<anari::Renderer>(d, "default");
+		auto renderer = anari::newObject<anari::Renderer>(d, "default");
 		// objects can be named for easier identification in debug output etc.
 		anari::setParameter(d, renderer, "name", "MainRenderer");
 		anari::setParameter(d, renderer, "ambientRadiance", 1.f);

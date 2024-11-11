@@ -106,6 +106,21 @@ ADD_TESTS_FOR_TARGET(${example_target}
     LINK_LIBRARIES
     LINK_DIRECTORIES)
 
+# copy if different all resources in ./resources folder
+FILE(GLOB_RECURSE example_resource_files
+        "${example_dir}/resources/**"
+        "${CMAKE_SOURCE_DIR}/~vendor/resources/**"
+    )
+FOREACH (resource_file ${example_resource_files})
+    ADD_CUSTOM_COMMAND(
+        TARGET ${example_target}
+        POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_if_different
+            ${resource_file}
+            $<TARGET_FILE_DIR:${example_target}>
+        COMMENT "Copying resource file ${resource_file}"
+    )
+ENDFOREACH()
 
 # Install the example to the install directory
 INSTALL_TARGET_AND_ITS_DEPENDENCIES(${example_target} "./bin")

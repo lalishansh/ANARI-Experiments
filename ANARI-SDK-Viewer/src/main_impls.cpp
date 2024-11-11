@@ -35,17 +35,20 @@ struct AppState {
 	// camera
 	my_viewer::manipulators::Orbit manipulator;
 	// window
-	using WindowArray = std::vector<std::unique_ptr<my_viewer::windows::Window>>;
 	GLFWwindow* nativeWindow = nullptr;
 	struct
 	{
 		int width = 0, height = 0;
 	} size;
 	std::string appName;
-	WindowArray windows;
+
 	std::chrono::time_point<std::chrono::steady_clock> lastFrameEndTime;
 	std::chrono::time_point<std::chrono::steady_clock> lastFrameStartTime;
 	bool windowResized = true;
+
+	// remove
+	using WindowArray = std::vector<my_viewer::windows::Window*>;
+	WindowArray windows;
 } static g_AppState;
 
 extern const char* getDefaultUILayout ();
@@ -260,8 +263,9 @@ void draw_ui() {
 }
 
 void draw_scene() {
-	for (auto &w : g_AppState.windows)
-		w->renderUI();
+	for (auto *window : g_AppState.windows) {
+		window->renderUI();
+	}
 }
 
 void present() {

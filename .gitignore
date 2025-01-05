@@ -4,17 +4,18 @@
 /!install/*
 /!installers/*
 
-# MAIN TARGET SOURCE FILES
-!/src/**/*[.c, .h, .cc, .hh, .inl, .cpp, .hpp, .cxx, .hxx, .cppm, ixx]
-!/tests/**/*[.c, .h, .cc, .hh, .inl, .cpp, .hpp, .cxx, .hxx, .cppm, ixx]
-
 # ANARI-Viewer SOURCE FILES
 !/ANARI-SDK-Viewer/src/**/*[.c, .h, .cc, .hh, .inl, .cpp, .hpp, .cxx, .hxx, .cppm, ixx]
 !/ANARI-SDK-Viewer/tests/**/*[.c, .h, .cc, .hh, .inl, .cpp, .hpp, .cxx, .hxx, .cppm, ixx]
 !/ANARI-SDK-Viewer/CMakeLists.txt
+
 !/ANARI-Minimal-Viewer/src/**/*[.c, .h, .cc, .hh, .inl, .cpp, .hpp, .cxx, .hxx, .cppm, ixx]
 !/ANARI-Minimal-Viewer/tests/**/*[.c, .h, .cc, .hh, .inl, .cpp, .hpp, .cxx, .hxx, .cppm, ixx]
 !/ANARI-Minimal-Viewer/CMakeLists.txt
+
+!/ANARI-Vulkan-Backend/src/**/*[.c, .h, .cc, .hh, .inl, .cpp, .hpp, .cxx, .hxx, .cppm, ixx]
+!/ANARI-Vulkan-Backend/tests/**/*[.c, .h, .cc, .hh, .inl, .cpp, .hpp, .cxx, .hxx, .cppm, ixx]
+!/ANARI-Vulkan-Backend/CMakeLists.txt
 
 # Include common project files
 !/~vendor/include/**/*[.h, .hh, .hpp, hxx, .inl, .ixx]

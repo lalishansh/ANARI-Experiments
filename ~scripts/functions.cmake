@@ -182,6 +182,46 @@ MACRO(FIND_VCPKG)
     STRING(JSON VCPKG_MANIFEST_VERSION_STRING GET ${VCPKG_MANIFEST_RAW} "version-string")
 ENDMACRO()
 
+# install any target dependencies
+# params:
+#   target: the target's dependencies to install
+#   relative_install_dir (optional): the relative sub directory to install to
+FUNCTION(INSTALL_TARGET_DEPENDENCIES target relative_install_dir)
+    GET_TARGET_PROPERTY(target_type ${target} TYPE)
+
+    # Install the dependencies to the install directory
+    GET_PROPERTY(this_target_linked_libs TARGET ${target} PROPERTY LINK_LIBRARIES)
+    FOREACH (lib IN LISTS this_target_linked_libs)
+        GET_TARGET_PROPERTY(lib_type ${lib} TYPE)
+        IF (lib_type STREQUAL "INTERFACE_LIBRARY" OR lib_type STREQUAL "STATIC_LIBRARY")
+            CONTINUE()
+        ENDIF ()
+
+        SET(lib_location)
+        IF (NOT lib_location)
+            STRING(TOUPPER ${CMAKE_BUILD_TYPE} CMAKE_BUILD_TYPE_UPPER)
+            GET_TARGET_PROPERTY(lib_location ${lib} LOCATION_${CMAKE_BUILD_TYPE_UPPER})
+        ENDIF ()
+        IF (NOT lib_location)
+            GET_TARGET_PROPERTY(lib_location ${lib} LOCATION)
+        ENDIF ()
+
+        IF (lib_location)
+            INSTALL(FILES ${lib_location} DESTINATION ${relative_install_dir} CONFIGURATIONS ${CMAKE_BUILD_TYPE})
+        ENDIF ()
+    ENDFOREACH ()
+ENDFUNCTION()
+
+# install library and its dependencies
+# params:
+#   library_target: the library target to install
+#   relative_bin_install_dir (optional): the relative sub directory to install the binary to
+#   relative_lib_install_dir (optional): the relative sub directory to install the library to
+#   relative_include_install_dir (optional): the relative sub directory to install the headers to
+FUNCTION(INSTALL_LIBRARY_AND_ITS_DEPENDENCIES library_target relative_bin_install_dir relative_lib_install_dir relative_include_install_dir)
+    MESSAGE(AUTHOR_WARNING "INSTALL_LIBRARY_AND_ITS_DEPENDENCIES is not implemented")
+ENDFUNCTION()
+
 # install target and dependencies
 # params:
 #   target: the target to install
@@ -197,31 +237,10 @@ FUNCTION(INSTALL_TARGET_AND_ITS_DEPENDENCIES target relative_install_dir)
     IF (target_type STREQUAL "EXECUTABLE")
         INSTALL(TARGETS ${target} RUNTIME DESTINATION ${relative_install_dir})
 
-        # Install the dependencies to the install directory
-        GET_PROPERTY(this_target_linked_libs TARGET ${target} PROPERTY LINK_LIBRARIES)
-        FOREACH (lib IN LISTS this_target_linked_libs)
-            GET_TARGET_PROPERTY(lib_type ${lib} TYPE)
-            IF (lib_type STREQUAL "INTERFACE_LIBRARY" OR lib_type STREQUAL "STATIC_LIBRARY")
-                CONTINUE()
-            ENDIF ()
-
-            SET(lib_location)
-            IF (NOT lib_location)
-                STRING(TOUPPER ${CMAKE_BUILD_TYPE} CMAKE_BUILD_TYPE_UPPER)
-                GET_TARGET_PROPERTY(lib_location ${lib} LOCATION_${CMAKE_BUILD_TYPE_UPPER})
-            ENDIF ()
-            IF (NOT lib_location)
-				GET_TARGET_PROPERTY(lib_location ${lib} LOCATION)
-            ENDIF ()
-
-            IF (lib_location)
-                INSTALL(FILES ${lib_location} DESTINATION ${relative_install_dir} CONFIGURATIONS ${CMAKE_BUILD_TYPE})
-            ENDIF ()
-        ENDFOREACH ()
+        INSTALL_TARGET_DEPENDENCIES(${target} ${relative_install_dir})
     ELSE ()
         MESSAGE (FATAL_ERROR "Target ${target} is not an executable")
         # TODO: support other target types
-
     ENDIF ()
 ENDFUNCTION()
 

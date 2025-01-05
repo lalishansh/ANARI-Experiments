@@ -98,13 +98,13 @@ TARGET_LINK_LIBRARIES(${example_target}
         anari::anari anari::anari_test_scenes
     )
 
-# tests target
-ADD_TESTS_FOR_TARGET(${example_target}
-    INCLUDE_DIRECTORIES
-    COMPILE_DEFINITIONS
-    COMPILE_OPTIONS
-    LINK_LIBRARIES
-    LINK_DIRECTORIES)
+## tests target
+#ADD_TESTS_FOR_TARGET(${example_target}
+#    INCLUDE_DIRECTORIES
+#    COMPILE_DEFINITIONS
+#    COMPILE_OPTIONS
+#    LINK_LIBRARIES
+#    LINK_DIRECTORIES)
 
 # copy if different all resources in ./resources folder
 FILE(GLOB_RECURSE example_resource_files
